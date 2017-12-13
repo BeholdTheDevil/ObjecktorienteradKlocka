@@ -8,16 +8,28 @@ public class AnalogClock extends Clock {
 
     private ClockDisplay view;
 
+    /**
+     * Creates a clock and initializes a 100*100px window with an analog clock.
+     */
     public AnalogClock() {
         super();
         initView(100);
     }
 
+    /**
+     * Creates a clock and initializes a user defined window size containing an analog clock.
+     * @param radius An Integer with the desired radius of the clock in pixels.
+     */
     public AnalogClock(int radius) {
         super();
         initView(radius);
     }
 
+    /**
+     * Creates the actual analog clock with a parameter defined radius.
+     * @see ClockDisplay
+     * @param radius An Integer with the desired radius of the clock in pixels.
+     */
     private void initView(int radius) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,21 +49,49 @@ public class AnalogClock extends Clock {
         updateDisplay();
     }
 
+    /**
+     * Updates the clock and repaints the window.
+     * @see ClockDisplay#update(int, int)
+     */
+    public void updateDisplay() {
+        view.update(getHours(), getMinutes());
+        view.repaint();
+    }
+
+
     private static class ClockDisplay extends JPanel {
 
         private int radius;
+
         private int minutes;
         private int hours;
 
+        /**
+         * Creates a ClockDisplay and sets it's radius to the parameter.
+         * @param radius The radius of the ClockDisplay as an Integer.
+         */
         public ClockDisplay(int radius) {
             this.radius = radius;
         }
 
+        /**
+         * Sets the value of the hours and minutes.
+         * @param hours The desired hour as an Integer.
+         * @param minutes The desired minute as an Integer.
+         */
         public void update(int hours, int minutes) {
             this.hours = hours;
             this.minutes = minutes;
         }
 
+        /**
+         * Paints the analog clock on the ClockDisplay-JPanel.
+         * @see Graphics
+         * @see Graphics2D
+         * @see JPanel#paint(Graphics)
+         * @see JPanel#repaint()
+         * @param g The Graphics to paint upon.
+         */
         public void paint(Graphics g) {
             super.paint(g);
             Graphics2D g2d = (Graphics2D)g;
@@ -72,10 +112,5 @@ public class AnalogClock extends Clock {
             g2d.setStroke(new BasicStroke(4));
             g2d.drawLine(radius + 5, radius + 5, 5 + radius + (int)(0.6 * radius * Math.cos(Math.PI * hours / 6 - Math.PI*0.5)), 5 + radius + (int)(0.6 * radius * Math.sin(Math.PI * hours / 6 - Math.PI*0.5)));
         }
-    }
-
-    public void updateDisplay() {
-        view.update(getHours(), getMinutes());
-        view.repaint();
     }
 }
